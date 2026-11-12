@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+DIR="$(cd "$(dirname "$0")" && pwd)"
+export ELECTRON_RUN_AS_NODE=1
+exec "$DIR/../../MolvOS" "$DIR/main.js" "$@"

@@ -1,0 +1,90 @@
+name: build
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run make:integrity
+      - run: npx electron-builder --win portable --x64 --publish never
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: dist/MolvOS-*-Portable.exe
+
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run make:integrity
+      - run: npx electron-builder --linux tar.gz --x64 --publish never
+      - run: node scripts/build-deb.js
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux
+          path: |
+            dist/MolvOS-*-linux-x64.tar.gz
+            dist/molv-os_*_amd64.deb
+
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: android-actions/setup-android@v3
+      - run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+      - name: Build APK
+        run: |
+          bash android/build-apk.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android
+          path: dist/MolvOS-*-android.apk
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: [windows, linux, android]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - run: |
+          find artifacts -type f -maxdepth 3 -print
+          cd artifacts
+          find . -type f -exec cp {} ../ \;
+          cd ..
+          sha256sum MolvOS-* molv-os_* > SHA256SUMS.txt
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            MolvOS-*
+            molv-os_*
+            SHA256SUMS.txt
+          generate_release_notes: true

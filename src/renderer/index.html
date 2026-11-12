@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>墨绿OS · MolvOS</title>
+<link rel="stylesheet" href="vendor/xterm.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="boot" id="boot">
+  <div class="boot-logo">墨</div>
+  <div class="boot-name">墨绿OS</div>
+  <div class="boot-sub">MOLV OS · WORKSPACE</div>
+  <div class="boot-bar"><span></span></div>
+  <div class="boot-hint" id="bootHint">正在唤醒工作台…</div>
+</div>
+
+<div class="app" id="app" aria-hidden="true">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">墨</div>
+      <div class="brand-text"><strong>墨绿OS</strong><span>MOLV OS</span></div>
+    </div>
+    <nav class="nav" id="nav"></nav>
+    <div class="sidebar-foot">
+      <div class="mini-status" id="miniStatus">
+        <span class="dot" id="miniDot"></span>
+        <div><b id="miniTitle">正在检查环境</b><small id="miniSub">请稍候</small></div>
+      </div>
+      <div class="ver">v<span id="verText">0.1.0</span> · <span id="platformText">desktop</span></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="crumb"><span id="crumbRoot">工作台</span><i>/</i><b id="crumbPage">总览</b></div>
+      <div class="top-actions">
+        <button class="chip chip-muted" id="variantChip" title="切换安装包类型">精简版</button>
+        <button class="icon-btn" id="btnRefresh" title="重新检查">↻</button>
+        <button class="icon-btn" id="btnBell" title="日志与通知">◔</button>
+      </div>
+    </header>
+    <section class="view" id="view"></section>
+  </main>
+</div>
+
+<div class="toasts" id="toasts"></div>
+<div class="modal-root" id="modalRoot"></div>
+
+<script src="vendor/xterm.js"></script>
+<script src="vendor/addon-fit.js"></script>
+<script src="bridge.js"></script>
+<script src="ui.js"></script>
+<script src="pages-system.js"></script>
+<script src="pages-tools.js"></script>
+<script src="pages-more.js"></script>
+<script src="actions.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+appId: os.molv.center
+productName: MolvOS
+copyright: Copyright © 2026 MolvOS Contributors
+electronDist: .electron-linux
+directories:
+  output: dist
+  buildResources: build
+files:
+  - src/**/*
+  - package.json
+  - build/icon.png
+  - "!**/*.map"
+  - "!**/*.log"
+asar: true
+compression: normal
+extraResources:
+  - from: integrity.json
+    to: integrity.json
+  - from: docs
+    to: docs
+    filter:
+      - "**/*"
+  - from: cli
+    to: cli
+    filter:
+      - "**/*"
+  - from: src
+    to: src
+    filter:
+      - "**/*"
+linux:
+  icon: build/icon.png
+  category: Utility
+  target:
+    - target: tar.gz
+      arch:
+        - x64
+  artifactName: MolvOS-${version}-linux-${arch}.${ext}

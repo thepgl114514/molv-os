@@ -1,0 +1,6 @@
+﻿#!/bin/sh
+echo '墨绿OS Live · Alpine 基础'
+echo '1) setup-alpine 安装到硬盘'
+echo '2) apk add 安装工具'
+echo '3) 从桌面端启动盘制作器写入 USB'
+

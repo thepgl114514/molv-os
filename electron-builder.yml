@@ -1,0 +1,61 @@
+appId: os.molv.center
+productName: MolvOS
+copyright: Copyright © 2026 MolvOS Contributors
+directories:
+  output: dist
+  buildResources: build
+files:
+  - src/**/*
+  - package.json
+  - build/icon.png
+  - "!**/*.map"
+  - "!**/*.log"
+asar: true
+compression: normal
+extraResources:
+  - from: integrity.json
+    to: integrity.json
+  - from: docs
+    to: docs
+    filter:
+      - "**/*"
+  - from: cli
+    to: cli
+    filter:
+      - "**/*"
+  - from: src
+    to: src
+    filter:
+      - "**/*"
+win:
+  icon: build/icon.ico
+  target:
+    - target: nsis
+      arch:
+        - x64
+    - target: portable
+      arch:
+        - x64
+  requestedExecutionLevel: asInvoker
+nsis:
+  oneClick: false
+  perMachine: false
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: 墨绿OS
+  installerLanguages:
+    - zh_CN
+  language: "2052"
+  artifactName: MolvOS-${version}-Setup.${ext}
+portable:
+  artifactName: MolvOS-${version}-Portable.${ext}
+linux:
+  icon: build/icon.png
+  category: Utility
+  target:
+    - target: tar.gz
+      arch:
+        - x64
+  artifactName: MolvOS-${version}-linux-${arch}.${ext}
